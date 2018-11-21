@@ -1,0 +1,70 @@
+{% extends "sb-admin/base.html" %}
+{% load static %}
+
+        {% block linkscss %}
+        <link rel="stylesheet" href="{% static '/bower_components/jquery-ui/themes/base/jquery-ui.min.css' %}">
+
+        {% endblock linkscss%}
+
+        {% block content %}
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="index.html">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Blank Page</li>
+          </ol>
+
+          <!-- Page Content -->
+
+        <div class="ui-widget">
+            <label for="tags">Ubicación</label>
+            <input id="locationlabel" class="form-control">
+        </div>
+            <input id="locationid" class="form-control">
+
+
+        {% endblock content %}
+
+        {% block script %}
+        <script src="{% static '/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+
+        <script>
+        $('#locationlabel').autocomplete({
+            minLength: 3,
+            limit: 5,
+            select: function (event,ui) {
+                console.log(ui);
+                $('#locationid').val(ui.item.id);
+                $('#locationlabel').val(ui.item.value);
+                return false;
+            },
+            source: function(request,response) {
+                var location=$('#locationlabel').val();
+                $.ajax({
+                    url: "/ajax/",
+                    dataType: "json",
+                    data: {
+                        method: 'autocomplete',
+                        model: 'Location',
+                        filter: '{"name__icontains": "'+location+'" ,"city__region__country__isoname": "{{ project.country.isoname }}"}',
+                        values: '["id","name","city__name","city__region__name"]'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data,function(item){
+                            return {
+                                label: item.name+", "+item.city__name+", "+item.city__region__name+", "+item.id,
+                                value: item.name,
+                                id: item.id
+
+                            }
+                        }));
+                    },
+                });
+            }
+        });
+
+        </script>
+
+        {% endblock script %}

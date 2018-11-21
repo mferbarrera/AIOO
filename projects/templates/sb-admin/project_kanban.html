@@ -1,0 +1,131 @@
+{% extends "sb-admin/base.html" %}
+
+{% load static %}
+
+{% block linkscss %}
+
+<link href="{% static '/bower_components/jkanban/dist/jkanban.min.css' %}" rel="stylesheet">
+
+{% endblock linkscss%}
+
+{% block content %}
+  <!-- Breadcrumbs-->
+
+ <ol class="breadcrumb" style="">
+    <div class="container">
+       
+      <div class="row justify-content-between">
+        
+        <div class="col" align="left">
+     <ol class="breadcrumb" style="margin-bottom: 0;">
+          <li class="breadcrumb-item">
+            <a href="/home/">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Estatus de proyectos</li>
+        </ol>
+        </div>
+        <div class="col" align="right">
+          <button id="update-project" type="button" class="btn btn-success">Actualizar</button>
+        </div>
+      
+      </div>
+      
+    </div>
+  </ol>
+  <!-- Page Content -->
+
+  <div class="col-sm-3 mb-3">
+    <div id="kanban1"></div>
+  </div>
+  
+<!-- The Modal -->
+<div class="modal" id="ProjectModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+
+        <table class="table table-striped" id="tblGrid">
+          <thead id="tblHead">
+            <tr>
+              <th>Campo</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Titulo</td>
+              <td id="data-name"></td>
+            </tr>
+            <tr>
+              <td>Referenia</td>
+              <td id="data-reference">5</td>
+            </tr>
+              <td>Referenia</td>
+              <td id="data-reference">5</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static '/bower_components/popper/dist/popper.min.js' %}"></script>
+<script src="{% static '/bower_components/jkanban/dist/dragula.min.js' %}"></script>
+<script src="{% static '/bower_components/jkanban/dist/jkanban.min.js' %}"></script>
+<script>
+  var projects= {{ project_kanban.structure|safe }};
+  var statuslist = {{ project_kanban.statuslist|safe }};
+  var kanban1 = new jKanban({
+    element: '#kanban1',
+    widthBoard: '160px',
+    gutter: '5px',
+    responsivePercentage: false,
+    boards: projects,
+    click: function (el) { alert(el.dataset.content); },
+  });
+  $('#update-project').click(function () {
+    $.ajax({
+      type: "POST",
+      url: "/ajax/",
+      headers: {
+        'X-CSRFToken': "{{ csrf_token }}"
+      },
+      data: {
+        CSRF: "{{ csrf_token }}",
+        model: 'Project',
+        key: 'id',
+        method: 'update',
+        data: JSON.stringify(kanban1.getActualBoards(statuslist))
+      },
+      success: function() {
+
+      },
+      error: function() {
+
+      }
+    });
+  });
+
+</script>
+{% endblock script %}

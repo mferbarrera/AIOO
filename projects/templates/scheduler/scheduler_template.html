@@ -1,0 +1,183 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+
+
+  <title>
+    Calendario de actividades
+  </title>
+
+
+
+
+
+<link href="{% static '/bower_components/bootstrap/dist/css/bootstrap.min.css'%}" rel='stylesheet' />
+<link href="{% static '/bower_components/fullcalendar/dist/fullcalendar.min.css' %}" rel='stylesheet' />
+<link href="{% static '/bower_components/fullcalendar/dist/fullcalendar.print.css' %}" rel='stylesheet' media='print' />
+<link href="{% static '/bower_components/fullcalendar-scheduler/dist/scheduler.min.css' %}" rel='stylesheet' />
+<script src="{% static '/bower_components/moment/min/moment.min.js' %}"></script>
+<script src="{% static '/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static '/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
+<script src="{% static '/bower_components/fullcalendar-scheduler/dist/scheduler.min.js' %}"></script>
+<script src="{% static '/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+
+<style>
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+
+</style>
+
+
+  <script>
+
+$(function() { // dom ready
+
+  var todayDate = moment().startOf('day');
+  var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+  var TODAY = todayDate.format('YYYY-MM-DD');
+  var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+
+
+  $('#calendar').fullCalendar({
+    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+    visibleRange : {
+      start: TODAY
+    },
+    resourceAreaWidth: 230,
+    editable: true,
+    aspectRatio: 1.778,
+    scrollTime: '00:00',
+    header: {
+      left: 'promptResource today prev,next',
+      center: 'title',
+      right: 'perMonth,perYear'
+    },
+    customButtons: {
+      promptResource: {
+        text: '+ room',
+        click: function() {
+          var title = prompt('Room name');
+          if (title) {
+            $('#calendar').fullCalendar(
+              'addResource',
+              { title: title },
+              true // scroll to the new resource?
+            );
+          }
+        }
+      }
+    },
+    defaultView: 'perMonth',
+    selectable: true,
+    selectHelper: true,
+    views: {
+      perMonth: {
+        type: 'timelineMonth',
+        slotDuration: { days : 1 },
+        slotlabelinterval: { days: 1 },
+        slotlabelFormat: ['W','ddd']
+      },
+      perYear: {
+        type: 'timelineYear',
+        slotDuration: { weeks: 1 },
+        slotLabelInterval: { weeks:1 },
+        slotLabelFormat: ['MMMM','W']
+      }
+    },
+    eventClick: function(event,element) {
+      event.title = event.title.substr(0,9)+"   " + (event.end-event.start).toString();
+      $('#calendar').fullCalendar('updateEvent',event);
+    },
+    select: function (start, end, allDay) {
+        //do something when space selected
+        //Show 'add event' modal
+        $('#createEventModal').modal('show');
+    },    
+    resourceLabelText: 'Rooms',
+    resources: [
+      { id: 'a', title: 'Expansion MSAN', children: [
+        { id: 'a1', title: 'Solola', children: [
+          { id: 'a11', title: 'Solicitud de energía', complete: false},
+          { id: 'a12', title: 'Solicitud de transporte',  eventColor: 'red', complete: false}
+        ] },
+        { id: 'a2', title: 'Chimaltenango', children: [
+          { id: 'a21', title: 'Solicitud de energía', eventColor: 'green', complete: false},
+          { id: 'a22', title: 'Solicitud de transporte',  eventColor: 'red', complete: false}          
+        ] },
+        { id: 'a3', title: 'Quiche', children: [
+          { id: 'a31', title: 'Solicitud de energía', eventColor: '', complete: false},
+          { id: 'a32', title: 'Solicitud de transporte',  eventColor: 'orange', complete: false}          
+        ] }
+      ]}
+    ],
+    events: [
+      { id: '1', resourceId: 'a11', start: TODAY + 'T02:00:00', end: TODAY + 'T07:00:00', title: 'event 1' , eventColor: 'black'},
+      { id: '2', resourceId: 'a12', start: TODAY + 'T05:00:00', end: TODAY + 'T22:00:00', title: 'event 2' },
+      { id: '3', resourceId: 'a21', start: YESTERDAY, end: TOMORROW, title: 'event 3' },
+      { id: '4', resourceId: 'a22', start: TODAY + 'T03:00:00', end: TODAY + 'T08:00:00', title: 'event 4' },
+      { id: '5', resourceId: 'a31', start: TODAY + 'T00:30:00', end: TODAY + 'T02:30:00', title: 'event 5' },
+      { id: '6', resourceId: 'a32', start: TODAY + 'T00:30:00', end: TODAY + 'T02:30:00', title: 'event 5' }
+    ]
+  });
+
+});
+
+// readjust sizing after font load
+$(window).on('load', function() {
+  $('#calendar').fullCalendar('render');
+});
+</script>
+
+</head>
+<body>
+  <div id='calendar'></div>
+  <div id="createEventModal" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                  <h4>Add an Event</h4>
+              </div>
+              <div id="modalBody" class="modal-body">
+                 <div class="form-group">
+                      <input class="form-control" type="text" placeholder="Event Name">
+                  </div>
+
+                  <div class="form-group form-inline">
+                      <div class="input-group date" data-provide="datepicker">
+                          <input type="text" class="form-control" placeholder="Due Date mm/dd/yyyy">
+                          <div class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <textarea class="form-control" type="text" rows="4" placeholder="Event Description"></textarea>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                  <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</body>
+
+</html>

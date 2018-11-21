@@ -1,0 +1,15 @@
+{
+  "name": "devops",
+  "version": "1.0.0",
+  "description": "devops",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manuel F. Barrera",
+  "license": "MIT",
+  "dependencies": {
+    "jquery-ui": "^1.12.1",
+    "particles.js": "^2.0.0"
+  }
+}

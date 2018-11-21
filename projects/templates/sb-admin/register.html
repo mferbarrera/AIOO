@@ -1,0 +1,277 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Register</title>
+    <link rel="icon" href="{% static '/icons/favicon.png' %}" type="image/png" />
+
+    <!-- Bootstrap core CSS-->
+    <link href="{% static '/sb-admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static '/sb-admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="{% static '/sb-admin/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static '/sb-admin/css/sb-admin.css' %}" rel="stylesheet">
+
+    
+  </head>
+
+  <body class="bg-dark">
+
+    <div class="container">
+      <div class="card card-register mx-auto mt-5">
+        <div class="card-header" style="background-color:#ffc107;vertical-align: middle;">Registro de usuarios
+        <span>
+            <img src="{% static '/icons/bee.png' %}" alt="Gemoji image for :bee" style="width:20px;height:20px;float:right;">
+          </span></div>
+        <div class="card-body">
+
+
+
+          <form id="UserRequest" action="/register/" method="post" enctype="application/json">
+            <div class="form-group">
+              <div class="form-row">
+              	<div class="col-md-6">
+              		<div class="form-label-group">
+                    	<input type="text" name="username" id="username" class="form-control" placeholder="Usuario" required="required" autofocus="autofocus">
+                    	<label for="username">Usuario/IBM</label>
+              		</div>
+              	</div>
+              	<div class="col-md-6">
+              		<div class="form-label-group">
+                    	<input type="text" name="company" id="company" class="form-control" placeholder="Empresa" required="required" list="companylist" autofocus="autofocus">
+                  		<label for="company">Empresa</label>
+                  		<datalist id="companylist">
+                  			{% for company in companylist %}
+                  				<option value={{ company.name }}>
+                  			{% endfor %}
+                  		</datalist>
+                  		
+              		</div>
+              	</div>
+           		
+              </div>
+            </div>	
+ 			<div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" name="first_name" id="firstName" class="form-control" placeholder="Primer nombre" required="required" autofocus="autofocus">
+                    <label for="firstName">Primer Nombre</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" name="last_name" id="lastName" class="form-control" placeholder="Segundo nombre" required="required" autofocus="autofocus">
+                    <label for="lastName">Segundo Nombre</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="usuario@dominio" required="required" autofocus="autofocus">
+                <label for="inputEmail">Correo electrónico</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" name="area" id="area" class="form-control" placeholder="Area laboral" required="required" list="arealist" autofocus="autofocus">
+                    <label for="area">Area</label>
+                    <datalist id="arealist">
+                    	{% for area in arealist %}
+                    	<option value={{ area.get_name_display }}>
+                    	{% endfor %}
+                    </datalist>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" name="country" id="country" class="form-control" placeholder="Pais" list="countrylist" required="required" autofocus="autofocus">
+                    <label for="country">Pais</label>
+                    <datalist id="countrylist">
+                    	{% for country in countrylist %}
+                    	<option value={{ country.name }}>
+                    	{% endfor %}
+                    </datalist>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" name="phone" id="phone" class="form-control" placeholder = "+XXX XXXXXXXX" required="required" autofocus="autofocus">
+                    <label for="phone">Teléfono móvil</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" name="phone_alt" id="phonealt" class="form-control" placeholder="+XXX XXXXXXXX" required="required" autofocus="autofocus">
+                    <label for="phonealt">Teléfono fijo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+
+            	<div class="form-check">
+            		
+            		<input type="checkbox" name="acceptterms" id="acceptterms" class="form-check-input" checked="checked" required="required" value="True" hidden>
+            		<label class="form-check-label" for="acceptterms" hidden>Acepto los terminos y condiciones</label>
+            		{% csrf_token %}
+            	</div>	
+            </div>
+            <button id="submitbtn" type="button" class="btn btn-primary btn-block">Registrarse</button>
+            
+          </form>
+          <div class="text-center">
+            <a class="d-block small mt-3" href="/about/">Terminos y condiciones</a>
+            <a class="d-block small" href="/forgotpassword/">Olvide mi contraseña/Forgot Password?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="RequestPosted" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">EULA</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h1 class="western">End-User License Agreement ("Agreement")</h1>
+            <br>
+            <p>Last updated: <span style="color: #000000;">Guatemala, September 2018</span></p>
+            <p>Please read this End-User License Agreement ("Agreement") carefully before clicking the "Acepto" (&ldquo;I Agree&rdquo;) button, downloading or using <span style="color: #000000;">XLSMiddleware, </span><span style="color: #000000;">XLSMW, DASHMW, NODES</span> ("Application").</p>
+            <p>By clicking the "Acepto" (&ldquo;I Agree)&rdquo; button, downloading or using the Application, you are agreeing to be bound by the terms and conditions of this Agreement.</p>
+            <p>This Agreegment represent the intellectual property of Manuel Fernando Barrera Perez(&ldquo;Author&rdquo;) henceforth Bee888.io (&ldquo;Project&rdquo;).</p>
+            <p>If you do not agree to the terms of this Agreement, do not click on the "I Agree" button and do not download or use the Application.</p>
+            <p><strong>EULA </strong><strong>License</strong></p>
+            
+            <p><span style="color: #000000;">Bee888.i</span><span style="color: #000000;">o</span> grants you a revocable, non-exclusive, non-transferable, limited license to download, install and use the Application solely for your personal, non-commercial purposes strictly in accordance with the terms of this Agreement.</p>
+            
+            <p><strong>MIT License</strong></p>
+            
+            <p>Copyright 2015-2025 Bee888.io</p>
+            <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+            
+            <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+            
+            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+            
+            <p><strong>Restrictions</strong></p>
+            
+            <p>You agree not to, and you will not permit others to:</p>
+            
+            <p>a) license, sell, rent, lease, assign, distribute, transmit, host, outsource, disclose or otherwise commercially exploit the Application or make the Application available to any third party.</p>
+            <p>b) claim intelectual property, ownership of source code of this Software or any third party source code</p>
+            <p>c) use or distribute without properly recognice the Bee888.io intelectual property</p>
+            <p>d) use third party to claim or recognice the intelectual property of partial or total source code used for the Software and the Aplication</p>
+            
+            <p><strong>Modifications to Application</strong></p>
+            
+            <p><span style="color: #000000;">Bee888.io</span> reserves the right to modify, suspend or discontinue, temporarily or permanently, the Application or any service to which it connects, with or without notice and without liability to you.</p>
+            
+            <p><strong>Term and Termination</strong></p>
+            
+            <p>This Agreement shall remain in effect until terminated by you or Bee888.io.</p>
+            
+            <p>Be888.io may, in its sole discretion, at any time and for any or no reason, suspend or terminate this Agreement with or without prior notice.</p>
+            
+            <p>This Agreement will terminate immediately, without prior notice from Bee888.io, in the event that you fail to comply with any provision of this Agreement. You may also terminate this Agreement by deleting the Application and all copies thereof from your mobile device or from your desktop.</p>
+            
+            <p>Upon termination of this Agreement, you shall cease all use of the Application and delete all copies of the Application from your mobile device or from your desktop.</p>
+            
+            <p><strong>Severability</strong></p>
+            
+            <p>If any provision of this Agreement is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.</p>
+            
+            <p><strong>Amendments to this Agreement</strong></p>
+            
+            <p><span style="color: #000000;">Bee888.io</span> reserves the right, at its sole discretion, to modify or replace this Agreement at any time. If a revision is material we will provide at least 45 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+            
+            <p><strong>Privacy</strong></p>
+            
+            <p>The Software and the Application does not store any user information all data is collected by the end user integrator. Bee888.io provide the Application to use as SaaS, and requiere a MongoDB database engine not included.</p>
+            
+            <p>This Agreegment release to Bee888.io of any liability regarding the use of end user information of:</p>
+            a) What personal information is collected through the website/app<br>
+            b) What&rsquo;s the purpose of collecting this information<br>
+            c) How the collected information is used by business and/or by any third parties<br>
+            d) How can user review and make changes to their information<br></p>
+            
+            <p><strong>Contact Information</strong></p>
+            
+            <p>If you have any questions about this Agreement, please be free to contact us:<br>
+            about@bee888.io<br>
+            Bee888.io&trade;<br>
+            1920 St. Regis Blvd<br> 
+            H9P 1H6 Montreal <br>
+            Dorval, QC Canada <br>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button id="agreebtn" type="button" class="btn btn-primary" data-dismiss="modal">Acepto</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    <script src="{% static '/sb-admin/vendor/jquery/jquery.min.js'%}"></script> -->
+    <script src="{% static '/bower_components/jquery/dist/jquery.min.js' %}"></script>
+
+    <script src="{% static '/sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static '/sb-admin/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+
+    <script type="text/javascript">
+      var form=document.querySelector('#UserRequest');
+      var submitbutton=document.querySelector('#submitbtn');
+      var agreebutton=document.querySelector('#agreebtn');
+      form.addEventListener('submit',
+        function(event){
+          event.preventDefault();
+          alert("Prueba");
+        }, false
+      );
+
+      submitbutton.addEventListener('click',function() {
+        if (form.checkValidity()) {
+          $('#RequestPosted').modal().show();
+        } else {
+          form.reportValidity();
+        }
+      }, false);
+      
+      agreebutton.addEventListener('click', function() {
+        if (form.checkValidity()) {
+          form.submit();
+        } 
+      }, false)
+
+    </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,343 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Bee888.io about">
+    <meta name="author" content="Manuel F. Barrera">
+
+    <title>About AIOO</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href='{% static "about/vendor/bootstrap/css/bootstrap.min.css" %}' rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href='{% static "about/vendor/font-awesome/css/font-awesome.min.css" %}' rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href='{% static "about/vendor/magnific-popup/magnific-popup.css" %}' rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href='{% static "about/css/freelancer.min.css" %}' rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">AIOO Middleware</a>
+        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Legal</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Acerca de</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contacto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead bg-primary text-white text-center">
+      <div class="container">
+        <img class="img-fluid mb-5 d-block mx-auto" src='{% static "about/img/profile.png" %}' alt="">
+        <h1 class="text-uppercase mb-0">AIOO</h1>
+        <hr class="star-light">
+        <h2 class="font-weight-light mb-0">API de integración de Excel con MongoDB|MySQL y router AJAX</h2>
+      </div>
+    </header>
+
+    <!-- Portfolio Grid Section -->
+    <section class="portfolio" id="portfolio">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Legal</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+          <div class="col-md-6 col-lg-4">
+            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-1">
+              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
+                  <i class="fa fa-search-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src='{% static "about/img/portfolio/cabin.png" %}' alt="">
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-2">
+              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
+                  <i class="fa fa-search-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src='{% static "about/img/portfolio/cake.png" %}' alt="">
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a class="portfolio-item d-block mx-auto" href="#portfolio-modal-3">
+              <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                <div class="portfolio-item-caption-content my-auto w-100 text-center text-white">
+                  <i class="fa fa-search-plus fa-3x"></i>
+                </div>
+              </div>
+              <img class="img-fluid" src='{% static "about/img/portfolio/circus.png" %}' alt="">
+            </a>
+          </div>
+          
+    </section>
+
+    <!-- About Section -->
+    <section class="bg-primary text-white mb-0" id="about">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-white">Acerca de...</h2>
+        <hr class="star-light mb-5">
+        <div class="row">
+          <div class="col-lg-4 ml-auto">
+            <p class="lead">AIOO es un servicio en la nube que permite la interacción de formularios de excel con una base de datos centralizados. El servicio permite la autenticación de los formularios y los usuarios.</p>
+          </div>
+          <div class="col-lg-4 mr-auto">
+            <p class="lead">El middleware fue desarrollado por Bee888.io con licencia MIT, el servicio no almacena información, solo tranfiere información entre una instancia MongoDB|MySQL y formularios de excel que utilicen el cliente del middleware de Excel o módulos que requieran del router Ajax.</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a class="btn btn-xl btn-outline-light" href="#">
+            <i class="fa fa-download mr-2"></i>
+            Descargar formulario
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Contacto</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+            <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+            <form name="sentMessage" id="contactForm" novalidate="novalidate">
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Nombre</label>
+                  <input class="form-control" id="name" type="text" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Correo</label>
+                  <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Telefono</label>
+                  <input class="form-control" id="phone" type="tel" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                  <label>Mensaje</label>
+                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <br>
+              <div id="success"></div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Dirección</h4>
+            <p class="lead mb-0">1920 St. Regis Blvd
+              <br>H9P 1H6 Montreal
+              <br>Dorval, QC Canada
+            </p>
+          </div>
+          <div class="col-md-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Around the Web</h4>
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.facebook.com/Bee888io-575137946170430/">
+                  <i class="fa fa-fw fa-facebook"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-google-plus"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-linkedin"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="#">
+                  <i class="fa fa-fw fa-dribbble"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h4 class="text-uppercase mb-4">Bee888.io</h4>
+            <p class="lead mb-0">Mas cerca de la transformación digital 
+              <a href="http://bee888.io">contactenos</a>.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="copyright py-4 text-center text-white">
+      <div class="container">
+        <small>Copyright &copy; 2015-2025 Bee888.io/Manuel F. Barrera</small>
+      </div>
+    </div>
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-to-top d-lg-none position-fixed ">
+      <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+        <i class="fa fa-chevron-up"></i>
+      </a>
+    </div>
+
+    <!-- Portfolio Modals -->
+
+    <!-- Portfolio Modal 1 -->
+    <div class="portfolio-modal mfp-hide" id="portfolio-modal-1">
+      <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+          <i class="fa fa-3x fa-times"></i>
+        </a>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h2 class="text-secondary text-uppercase mb-0">LICENCIA</h2>
+              <hr class="star-dark mb-5">
+              <img class="img-fluid mb-5" src='{% static "about/img/portfolio/cabin.png" %}' alt="">
+              <p class="mb-5">Copyright 2015-2025 Bee888.io/Manuel F. Barrera</p>
+              <p class="mb-5">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: <br> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+              <p class="mb-5">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+              <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                <i class="fa fa-close"></i>
+                Acepto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Modal 2 -->
+    <div class="portfolio-modal mfp-hide" id="portfolio-modal-2">
+      <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+          <i class="fa fa-3x fa-times"></i>
+        </a>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h2 class="text-secondary text-uppercase mb-0">TERMINOS Y CONDICIONES</h2>
+              <hr class="star-dark mb-5">
+              <img class="img-fluid mb-5" src='{% static "about/img/portfolio/cake.png" %}' alt="">
+              <p "mb-5"><strong>Propiedad intelectual</strong></p>
+                <p "mb-5">La herramienta y el desarrollo de Excel Middleware es un proyecto propietario de Manuel F. Barrera, que en adelante se conocer&aacute; como el desarrollador, bajo la marca Bee888.io, que en adelante se reconocer&aacute; como la marca. Dicha integraci&oacute;n esta originalmente de acuerdo a la licencia de software de distribuci&oacute;n libre MIT.</p>
+                <p "mb-5">La propiedad intelecutal no podr&aacute; ser reclamada por terceros y se acepta estos terminos y condiciones en cada transacci&oacute;n, en el enunciado de la transferencia en la estructura JSON de about.</p>
+                <p "mb-5"><strong>Terminaci&oacute;n de acuerdo</strong></p>
+                <p "mb-5">Todos los derechos intelectuales deber&aacute;n ser reconocidos al autor, quien podr&aacute; dar de baja el proyecto o cambiar los terminos y condiciones sin previo aviso.</p>
+                <p "mb-5">No existe ninguna responsabilidad legal o civil del desarrollador por dar de baja al servicio gratuito de hosting as&iacute; como la integraci&oacute;n realizada, debiendose generar un contrato de soporte de requerir nuevamente el servicio.</p>
+                <p "mb-5"><strong>Limitaciones del usuario</strong></p>
+                <p "mb-5">Los usuarios podr&aacute;n utilizar la herramienta por medio de los formularios, cualquier modificaci&oacute;n al codigo fuente deber&aacute; reconocerse la propiedad intelectual de los autores, tanto de las librerias utilizadas para esta herramienta como la de terceros incluidas las licencias dentro de los scripts de excel utilizados por el usuario final.</p>
+                <p "mb-5"><strong>Base de datos</strong></p>
+                <p "mb-5">La herramienta no utiliza una base de datos, es posible apuntar a una base de datos en las localidades del usuario, reconociendo que la informaci&oacute;n almacenada es propiedad del usuario final.</p>
+                <p "mb-5">El desarrollador no tiene la responsabilidad de mantener la integridad de la misma o la perdida, modificaci&oacute;n o mal uso que pueda darse a dicha informaci&oacute;n.</p>
+                <p "mb-5"><strong>Hosting</strong></p>
+                <p "mb-5">La herramienta se almacena en un servicio en la nube, por lo cual la disponibilidad del servicio estar&aacute; sujeta a los terminos y condiciones del proveedor de servicio en la nube, para los detalles revisar los terminos y condiciones de AWS</p>
+              <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                <i class="fa fa-close"></i>
+                Acepto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Modal 3 -->
+    <div class="portfolio-modal mfp-hide" id="portfolio-modal-3">
+      <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#">
+          <i class="fa fa-3x fa-times"></i>
+        </a>
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <h2 class="text-secondary text-uppercase mb-0">Privacidad</h2>
+              <hr class="star-dark mb-5">
+              <img class="img-fluid mb-5" src='{% static "about/img/portfolio/circus.png" %}' alt="">
+              <p "mb-5"><strong>Privacidad</strong></p>
+                <p "mb-5">La herramienta AIOO, &uacute;nicamente transfiere la informaci&oacute;n hacia una base de datos MongoDB|MySQL, la cual esta fuera del control del desarrollador definido en los terminos y condiciones.</p>
+                <p "mb-5"><strong>Privacidad de terceros</strong></p>
+                <p "mb-5">La herramienta esta disponible en la nube de amazon, y aplica la politica de privacidad cuyos terminos y condiciones puede encontrarlos <a href="https://aws.amazon.com/privacy/">aqui</a>.</p>
+              <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#">
+                <i class="fa fa-close"></i>
+                Acepto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src='{% static "about/vendor/jquery/jquery.min.js" %}'></script>
+    <script src='{% static "about/vendor/bootstrap/js/bootstrap.bundle.min.js" %}'></script>
+
+    <!-- Plugin JavaScript -->
+    <script src='{% static "about/vendor/jquery-easing/jquery.easing.min.js" %}'></script>
+    <script src='{% static "about/vendor/magnific-popup/jquery.magnific-popup.min.js" %}'></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src='{% static "about/js/jqBootstrapValidation.js" %}'></script>
+    <script src='{% static "about/js/contact_me.js" %}'></script>
+
+    <!-- Custom scripts for this template -->
+    <script src='{% static "about/js/freelancer.min.js" %}'></script>
+
+  </body>
+
+</html>

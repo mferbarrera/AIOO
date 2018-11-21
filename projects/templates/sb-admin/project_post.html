@@ -1,0 +1,150 @@
+{% extends "sb-admin/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+    {% block linkscss %}
+    <!-- Include SmartWizard CSS -->
+    <link href="{% static '/smartwizard/css/smart_wizard.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Optional SmartWizard theme -->
+    <link href="{% static '/smartwizard/css/smart_wizard_theme_circles.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static '/smartwizard/css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static '/smartwizard/css/smart_wizard_theme_dots.css' %}" rel="stylesheet" type="text/css" />
+
+    {% endblock linkscss %}
+
+        {% block content %}
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/home/">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Proyectos</li>
+          </ol>
+
+
+
+        <form id="WizardForm" method="post">{% csrf_token %}
+        <!-- SmartWizard html -->
+        <div id="smartwizard">
+            <ul>
+                {% for step in form.wizard %}
+                <li><a href="#step-{{ step.id }}">{{ step.name }}<br /><small>{{ step.label }}</small></a></li>
+                {% endfor %}
+            </ul>
+
+            <div>
+                {% for step in form.wizard %}
+                <div id="step-{{ step.id }}" class="">
+                    <h3 class="border-bottom border-gray pb-2">{{ step.reference }}</h3>
+                    <div class="form-group">
+                      {% for rows in step.fields %}                   
+                      <div class="form-row">
+                        {% for field in rows %}
+                        <div class="col-md-6">
+                          {{ field.errors|as_crispy_errors }}
+                          {{ field|as_crispy_field }}
+                        </div>
+                        {% endfor %}
+                      </div>  
+                      {% endfor %}
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Page Content -->
+      </form>
+     
+
+    {% endblock content %}
+
+
+    {% block script %}
+    <script type="text/javascript" src="{% static '/bower_components/popper/dist/popper.min.js' %}"></script>
+   
+    <script type="text/javascript" src="{% static '/smartwizard/js/jquery.smartWizard.min.js' %}"></script>
+
+    <script type="text/javascript">
+        var form = document.querySelector('#WizardForm');
+        $(document).ready(function(){
+
+            $("textarea").attr({"rows":4,"cols":15});
+            // Step show event
+            $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
+               //alert("You are on step "+stepNumber+" now");
+               if(stepPosition === 'first'){
+                   $("#prev-btn").addClass('disabled');
+               }else if(stepPosition === 'final'){
+                   $("#next-btn").addClass('disabled');
+               }else{
+                   $("#prev-btn").removeClass('disabled');
+                   $("#next-btn").removeClass('disabled');
+               }
+            });
+
+            
+
+            // Toolbar extra buttons
+            var btnFinish = $('<button></button>').text('Guardar')
+                                             .addClass('btn btn-success')
+                                             .on('click', function(){
+                                                if (form.checkValidity()) {
+                                                  form.submit();
+                                                } else {
+                                                  form.reportValidity();
+                                                };
+                                             });
+            var btnCancel = $('<button></button>').text('Cancelar')
+                                             .addClass('btn btn-danger')
+                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
+
+
+            // Smart Wizard
+            $('#smartwizard').smartWizard({
+                    selected: 0,
+                    theme: 'arrows',
+                    transitionEffect:'fade',
+                    showStepURLhash: true,
+                    lang: {
+                      next: 'Siguiente',
+                      previous: 'Anterior'
+                    },
+                    toolbarSettings: {toolbarPosition: 'top',
+                                      toolbarButtonPosition: 'end',
+                                      toolbarExtraButtons: [btnFinish, btnCancel]
+                                    }
+            });
+
+
+            // External Button Events
+            $("#reset-btn").on("click", function() {
+                // Reset wizard
+                $('#smartwizard').smartWizard("reset");
+                return true;
+            });
+
+            $("#prev-btn").on("click", function() {
+                // Navigate previous
+                $('#smartwizard').smartWizard("prev");
+                return true;
+            });
+
+            $("#next-btn").on("click", function() {
+                // Navigate next
+                $('#smartwizard').smartWizard("next");
+                return true;
+            });
+
+            $("#theme_selector").on("change", function() {
+                // Change theme
+                $('#smartwizard').smartWizard("theme", $(this).val());
+                return true;
+            });
+
+            // Set selected theme on page refresh
+            $("#theme_selector").change();
+        });
+    </script>
+ {% endblock script %}

@@ -1,0 +1,193 @@
+{% extends "sb-admin/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block linkscss %}
+<link rel="stylesheet" href="{% static '/bower_components/jquery-ui/themes/base/jquery-ui.min.css' %}">
+
+<style>
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px;
+  }
+
+  #calendar {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+
+</style>
+
+{% endblock linkscss%}
+
+
+{% block script %}
+<script src="{% static '/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+
+<script>
+  var todayDate = moment().startOf('day');
+  var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+  var TODAY = "{{ project_startdate }}";
+  var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+  var PROJECTRESOURCES = {{  project_resources | safe  }};
+  var PROJECTEVENTS = {{ project_events | safe }};
+
+  $('#calendar').fullCalendar({
+    themeSystem: 'bootstrap4',
+    nowIndicator: true,
+    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+    visibleRange : {
+      start: TODAY,
+    },
+    resourceAreaWidth: 230,
+    resourcesInitiallyExpanded: false,
+    editable: true,
+    aspectRatio: 1.95,
+    scrollTime: '00:00',
+    header: {
+      left: 'promptResource today prev,next',
+      center: 'title',
+      right: 'perMonth,perYear'
+    },
+    customButtons: {
+      promptResource: {
+        text: 'Actualizar',
+        click: function() {
+          var clientEvents=$('#calendar').fullCalendar('clientEvents');
+          var postEvents=[];
+          for (var k in clientEvents) {
+            clientEvent=clientEvents[k];
+            postEvents.push({
+              id: clientEvent.id,
+              start: clientEvent.start,
+              end:clientEvent.end,
+              progress: clientEvent.progress
+            });
+          }
+          console.log(postEvents);
+          $.ajax({
+            type: 'POST',
+            url: '/ajax/',
+            headers: {
+              'X-CSRFToken': "{{ csrf_token }}"  
+            },
+            data: {
+              CSRF: "{{ csrf_token }}",
+              model: 'ProjectEvent',
+              key: 'id',
+              method: 'updateevents',
+              events: JSON.stringify(postEvents), 
+            },
+            success: function (data, textStatus) {
+            },
+            error: function () {
+            }
+          });
+          
+        }
+      }
+    },
+    defaultView: 'perYear',
+    selectable: true,
+    selectHelper: true,
+    displayEventTime: false,
+    views: {
+      perMonth: {
+        type: 'timelineMonth',
+        slotDuration: { days : 1 },
+        slotlabelinterval: { days: 1 },
+        slotlabelFormat: ['W','ddd']
+      },
+      perYear: {
+        type: 'timelineYear',
+        slotDuration: { months: 1 },
+        slotLabelInterval: { months:1 },
+        slotLabelFormat: ['Y','MMM'],
+        duration: { months: 16 }
+      }
+    },
+    eventRender: function(event,element) {
+      element.popover({
+        title: event.progress,
+        content: event.id_description,
+        trigger: 'hover',
+        placement: 'top',
+        container: 'body'
+      });
+    },
+    eventClick: function(event,element) {
+        if (event.editable) {
+          $('#id_eventid').val(event.id);
+          $('#id_description').val(event.title);
+          $('#id_start').val(event.start.format('D/M/Y'));
+          $('#id_end').val(event.end.format('D/M/Y'));
+          $('#id_progress').val(event.progress);
+          event.progress=prompt("Ingrese el avance para la tarea: "+event.title+" "+event.progress+"%")
+
+          $('#calendar').fullCalendar('updateEvent',event);
+          return false;  
+        }
+        
+    },
+    select: function (start, end, allDay, view,resource) {
+        //do something when space selected
+        //Show 'add event' modal
+        valid=true;
+        if (!resource.id.includes('-')) {
+          console.log(resource.id);
+          document.getElementById('modalFormTitle').value=resource.taskname;
+          document.getElementById('modalFormStart').value=start.toISOString()+"T08:00";
+          document.getElementById('modalFormEnd').value=end.toISOString()+"T18:00";
+          $('#createEventModal').modal('show');
+        }
+    },    
+    resourceLabelText: 'Proyectos',
+    resources: PROJECTRESOURCES,
+    events:  PROJECTEVENTS
+  });
+
+  $('#id_start').datepicker();
+  $('#id_end').datepicker();
+  // readjust sizing after font load
+  $(window).on('load', function() {
+    $('#calendar').fullCalendar('render');
+  });
+
+
+</script>
+
+
+{% endblock script %}
+
+{% block content %}
+
+  <div id='calendar'></div>
+
+
+{% endblock content%}
+
+{% block modal %}
+
+  <div class="modal fade" id="editEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4>Editar Evento</h4>
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span> <span class="sr-only">close</span></button>
+                  
+              </div>
+              <div id="modalBody" class="modal-body">
+                  {{ form|crispy }}
+              </div>
+              <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                  <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{% endblock modal %}

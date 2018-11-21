@@ -1,0 +1,257 @@
+{% extends "sb-admin/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block linkscss %}
+<link rel="stylesheet" href="{% static '/bower_components/jquery-ui/themes/base/jquery-ui.min.css' %}">
+
+<style>
+    .ui-autocomplete
+    {
+        max-height: 100px;
+        overflow-y: auto; /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+         
+    * html .ui-autocomplete
+    {
+        height: 100px;
+    }
+</style>
+
+{% endblock linkscss%}
+
+
+{% block content %}
+
+
+  <!-- Breadcrumbs-->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">General</li>
+  </ol>
+
+  <!-- DataTables Example -->
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-map"></i>
+      Sitios {{ pid }}<div hidden class="float-right"><a href="/post/project/new"><i class="fas fa-plus-circle"></i> Crear nuevo</a></div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-sm table-responsive-sm" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th class="w-25">Sitio</th>
+              <th class="w-20">Nemonico</th>
+              <th class="w-20">Tipo</th>
+              <th class="w-5">Prioridad</th>
+              <th class="w-15">Acción</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Sitio</th>
+              <th>Nemonico</th>
+              <th>Tipo</th>
+              <th>Prioridad</th>
+              <th>Acción</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for location in locationsobj %}
+            <tr row_id="{{ location.value.id }}">
+              <td>
+                <div class="row_data" col_name="planningref" style="">{{ location.value.planningref }}</div>
+                <div class="ui-widget input_row_data" col_name="planningref" style="display: none;">
+                  {{ location.form.planningref }}
+                </div>
+              </td>
+              <td>
+                <div class="row_data" col_name="location__id" style="">{{ location.value.location.nemonic }}</div>
+                <div class="input_row_data" col_name="location__id" style="display: none;">
+                  {{ location.form.location__id }}
+                </div>
+              </td>
+              <td>
+                <div class="row_data" col_name="nodetype" style="">{{ location.value.get_nodetype_display }}</div>
+                <div class="input_row_data" col_name="nodetype" style="display: none;">
+                  {{ location.form.nodetype }}
+                </div>
+              </td>
+              <td>
+                <div class="row_data" col_name="priority" style="">{{ location.value.priority }}</div>
+                <div class="input_row_data" col_name="priority" style="display: none;">
+                  {{ location.form.priority }}
+                </div>
+              </td>
+              <td>
+                <span class="badge badge-primary btn_edit"  row_id="{{ location.value.id }}" style=""><i class="fas fa-edit"></i> Editar</span>
+                <span class="badge badge-success btn_save"  row_id="{{ location.value.id }}" style="display: none;"><i class="fas fa-save"></i></span>
+                <span class="badge badge-danger btn_cancel" row_id="{{ location.value.id }}" style="display: none;"><i class="fas fa-times-circle"></i></span>
+              </td> 
+            </tr>
+            {% endfor %}
+            
+
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+
+
+  {% endblock content %}
+
+
+  {% block script %}
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static '/sb-admin/vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static '/sb-admin/vendor/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static '/sb-admin/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static '/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+
+    <!-- Demo scripts for this page-->
+    <script>
+      var locationauto=function() {
+        var planningref=$(this);
+        var tbl_row=$(this).closest('tr');
+        var locationid=tbl_row.find('#location__id');
+        planningref.autocomplete({
+            minLength: 3,
+            limit: 5,
+            select: function (event,ui) {
+                console.log(ui);
+                locationid.val(ui.item.nemonic);
+                locationid.attr('field_value',ui.item.id);
+                planningref.val(ui.item.value);
+                return false;
+            },
+            source: function(request,response) {
+                var location=planningref.val();
+                console.log(location);
+                $.ajax({
+                    url: "/ajax/",
+                    dataType: "json",
+                    data: {
+                        method: 'autocomplete',
+                        model: 'Location',
+                        filter: '{"name__icontains": "'+location+'" ,"city__region__country__isoname": "{{ project.country.isoname }}"}',
+                        values: '["id","name","city__name","city__region__name","nemonic"]'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        locationid.val("");
+                        locationid.attr('field_value',0)
+                        response($.map(data,function(item){
+                            return {
+                                label: item.name+", "+item.city__name+", "+item.city__region__name+", "+item.id,
+                                value: item.name,
+                                id: item.id,
+                                nemonic: item.nemonic
+                            }
+                        }));
+                    },
+                }); // end of Ajax
+            } // end of source
+        }); 
+      }
+    
+    $('.location_autocomplete').each(locationauto);
+
+    $(document).on('click','.btn_edit', function(event) {
+      event.preventDefault();
+      var tbl_row=$(this).closest('tr');
+      var row_id=tbl_row.attr('row_id');
+      tbl_row.find('.btn_save').show();
+      tbl_row.find('.btn_cancel').show();
+      tbl_row.find('.btn_edit').hide();
+      tbl_row.find('.row_data').hide();
+      tbl_row.find('.input_row_data').show();
+      var nemonic=tbl_row.find('#location__id');
+      nemonic.val(tbl_row.find('.row_data').filter('[col_name="location__id"]').html());
+    });
+    $(document).on('click','.btn_cancel', function(event) {
+      event.preventDefault();
+      var tbl_row=$(this).closest('tr');
+      var row_id=tbl_row.attr('row_id');
+      tbl_row.find('.btn_save').hide();
+      tbl_row.find('.btn_cancel').hide();
+      tbl_row.find('.btn_edit').show();
+      tbl_row.find('.row_data').show();
+      tbl_row.find('.input_row_data').hide();
+    });
+    $(document).on('click','.btn_save', function(event) {
+      event.preventDefault();
+      var tbl_row=$(this).closest('tr');
+      var row_id=tbl_row.attr('row_id');
+      var planningref=tbl_row.find('#planningref').val();
+      var location__id=tbl_row.find('#location__id').attr('field_value');
+      var nodetype=tbl_row.find('#nodetype').val();
+      var priority=tbl_row.find('#priority').val();
+      var row_post=[];
+      if (location__id>0) {
+          row_post=[{
+          id: parseInt(row_id),
+          planningref:planningref,
+          location_id:location__id,
+          nodetype:nodetype,
+          priority: parseInt(priority)
+        }];
+      } else {
+          row_post=[{
+          id: parseInt(row_id),
+          planningref:planningref,
+          nodetype:nodetype,
+          priority: parseInt(priority)
+        }];
+      }
+      console.log(row_post);
+      $.ajax({
+        type: "POST",
+        url: "/ajax/",
+        headers: {
+          'X-CSRFToken': "{{ csrf_token }}"
+        },
+        data: {
+          CSRF: "{{ csrf_token }}",
+          model: 'ProjectLocation',
+          key: 'id',
+          method: 'update',
+          data: JSON.stringify(row_post)
+        },
+        success: function() {
+          fields=['planningref','location__id','nodetype','priority'];
+          for (k in fields) {
+            row_div=tbl_row.find('.row_data').filter('[col_name="'+fields[k]+'"]');
+            if (k==2) {
+              row_input=tbl_row.find("select#"+fields[k]+".form-control option:selected").text();
+            } else {
+              row_input=tbl_row.find('.form-control').filter("#"+fields[k]).val();
+            }
+            console.log(row_input);
+            row_div.html(row_input);
+          }
+        },
+        error: function() {
+
+        }
+      }); // ajax
+      tbl_row.find('.btn_save').hide();
+      tbl_row.find('.btn_cancel').hide();
+      tbl_row.find('.btn_edit').show();
+      tbl_row.find('.row_data').show();
+      tbl_row.find('.input_row_data').hide();
+    });
+
+    var table = $('#dataTable').DataTable();
+    table.order([0,'asc']).draw();
+
+  </script>
+
+
+{% endblock script %}

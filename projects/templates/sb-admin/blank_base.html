@@ -1,0 +1,77 @@
+{% extends "sb-admin/base.html" %}
+
+        {% block linkcss %}
+
+        <link href="{% static '/bower_components/jkanban/jkanban.min.css' %}" rel="stylesheet">
+
+        {% endblock linkcss%}
+
+        {% block content %}
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="index.html">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Blank Page</li>
+          </ol>
+
+          <!-- Page Content -->
+          <h1>Blank Page</h1>
+          <hr>
+          <p>This is a great starting point for new custom pages.</p>
+
+          <div id="kanban1"></div>
+
+
+        {% endblock content %}
+
+        {% block script %}
+        <script src="{% static '/bower_components/jkanban/jkanban.min.js' %}"></script>
+        <script>
+          var boards= [
+            {
+                'id' : '_todo',
+                'title'  : 'Try Drag me!',
+                'item'  : [
+                    {
+                        'title':'You can drag me too',
+                    },
+                    {
+                        'title':'Buy Milk',
+                    }
+                ]
+            },
+            {
+                'id' : '_working',
+                'title'  : 'Working',
+                'item'  : [
+                    {
+                        'title':'Do Something!',
+                    },
+                    {
+                        'title':'Run?',
+                    }
+                ]
+            },
+            {
+                'id' : '_done',
+                'title'  : 'Done',
+                'item'  : [
+                    {
+                        'title':'All right',
+                    },
+                    {
+                        'title':'Ok!',
+                    }
+                ]
+            }
+          ];
+          
+          var kanban1 = new jkanban({
+            element. '#kanban1',
+            gutter: '40px',
+            click: function(el) { alert(el.innerHTML) },
+            boards: boards,
+          });
+        </script>
+        {% endblock script %}

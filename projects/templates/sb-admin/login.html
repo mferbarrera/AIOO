@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>AIOO - Login</title>
+
+
+    <link rel="icon" href="{% static '/icons/favicon.png' %}" type="image/png" />
+
+    <!-- Bootstrap core CSS-->
+    <link href="{% static '/sb-admin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static '/sb-admin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="{% static '/sb-admin/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static '/sb-admin/css/sb-admin.css' %}" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+
+  </head>
+
+  <body class="bg-dark">
+    <div id="bees-js" style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0; z-index: -10;">
+      
+      <div style="position: absolute; justify-content: center; display: flex; align-items: center; background-color: #ffc107; opacity: 0.9; width:300px; height: 100px; top: 40%; left:160px; margin-top:-50px; margin-left: -150px; font-family: 'Julius Sans One', sans-serif; border-radius: 5px">
+        <a id="start">
+          <h1>AIOO</h1>
+          <small>
+          AI4 Operation & Optimization
+          <b>
+            [Login]
+          </b>
+        </small>
+        </a>
+      </div>
+      <div style="position: absolute; justify-content: flex-end; display: flex; align-items: center; width: 300px; height: 20px; bottom: 20px; right: 20px; font-family: 'Lato', sans-serif; border-radius: 5px; color: #ffffff; text-decoration: none;">
+        <a href="/about/" style="color: #ffffff">
+          <small>
+        Copyright © 2015-2025 Bee888.io
+      </small>
+        </a>
+      </div>
+    </div>
+    <div id="logincontainer" class="container"  style="display:none;">
+      <div class="card card-login mx-auto mt-5">
+        <div class="card-header" style="background-color:#ffc107;vertical-align: middle;">
+          <div style="float:left;">Inicio de sesión/Login</div>
+          <span>
+            <img src="{% static '/icons/bee.png' %}" alt="Gemoji image for :bee" style="width:50px;height:50px;float:right;">
+          </span>
+        </div>
+
+        <div class="card-body">
+          {% if invalid_user %}
+          <div class="alert alert-danger" role="alert">
+            Verifique usuario y contraseña
+          </div>
+          {% endif %}
+          <form method="post"> {% csrf_token %}
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="text" id="inputUsername" name="username" class="form-control" required="required" autofocus="autofocus">
+                <label for="inputEmail">Usuario/Username</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="password" id="inputPassword" name="password" class="form-control" required="required" current-password="gato">
+                <label for="inputPassword">Constraseña/Password</label>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit">Login</button>
+          </form>
+          <div class="text-center">
+            <a class="d-block small mt-3" href="/optin/">Registro/Register</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    <script src="{% static '/sb-admin/vendor/jquery/jquery.min.js'%}"></script> -->
+    <script src="{% static '/bower_components/jquery/dist/jquery.min.js' %}"></script>
+
+    <script src="{% static '/sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static '/sb-admin/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <script src="{% static '/node_modules/particles.js/particles.js'%}"></script>
+    <script src="{% static '/node_modules/particles.js/app.js'%}"></script>
+
+  </body>
+
+</html>
